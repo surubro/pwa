@@ -15,18 +15,21 @@
       flex-direction: column;
       min-height: 100vh;
     }
+
     h2 {
       font-size: 24px;
       margin-bottom: 16px;
       color: #007BFF;
       cursor: pointer;
     }
+
     .search-container {
       position: relative;
       margin-bottom: 16px;
       display: flex;
       align-items: center;
     }
+
     #search {
       width: 100%;
       padding: 12px 44px 12px 12px;
@@ -34,6 +37,7 @@
       border: 1px solid #ccc;
       border-radius: 8px;
     }
+
     #clearBtn {
       position: absolute;
       right: 8px;
@@ -51,9 +55,11 @@
       align-items: center;
       justify-content: center;
     }
+
     #clearBtn:hover {
       background-color: #ddd;
     }
+
     .clickable {
       cursor: pointer;
       padding: 10px;
@@ -62,9 +68,11 @@
       border: 1px solid #ddd;
       border-radius: 8px;
     }
+
     .clickable:hover {
       background-color: #f1f1f1;
     }
+
     #results, #details, #categories {
       background: #fff;
       padding: 16px;
@@ -72,12 +80,15 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       margin-top: 20px;
     }
+
     ul {
       padding-left: 20px;
     }
+
     h3 {
       margin-top: 0;
     }
+
     .category {
       padding: 10px;
       background: #fff;
@@ -86,9 +97,11 @@
       border-radius: 8px;
       cursor: pointer;
     }
+
     .category:hover {
       background-color: #f1f1f1;
     }
+
     footer {
       margin-top: auto;
       text-align: center;
@@ -97,810 +110,56 @@
       padding: 20px 0;
     }
   </style>
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#007BFF" />
 </head>
 <body>
   <h2 id="reload">Search Menu</h2>
+
   <div class="search-container">
     <input type="text" id="search" placeholder="Type a beverage name..." />
     <button id="clearBtn">&times;</button>
   </div>
+
   <div id="categories"></div>
   <div id="details"></div>
   <div id="results"></div>
+
   <footer>Made with ❤️ by Surendra Sonawane</footer>
 
   <script>
-    const menuData = {
-  "Milkshakes": [
-    {
-      "name": "kitkat",
-      "equipments": [
-        "4 scoop vanilla",
-        "1 kitkat",
-        "20ml choc souce",
-        "50milk"
-      ]
-    },
-    {
-      "name": "Oreo",
-      "equipments": [
-        "4 scoop vanilla",
-        "4 oreo",
-        "20ml choc souce",
-        "50ml milk"
-      ]
-    },
-    {
-      "name": "Ferrero Roacher",
-      "equipments": [
-        "4 scoop vanilla",
-        "2 ferrero 1 moments",
-        "20ml choc souce",
-        "50ml milk"
-      ]
-    },
-    {
-      "name": "mysore nuggets extra bold",
-      "equipments": [
-        "Pour Over",
-        "Moka Pot",
-        "French Press",
-        "Vietnamese"
-      ]
-    }
-  ],
-  "cold coffee": [
-    {
-      "name": "caramel frappe",
-      "sizes": {
-        "R": [
-          "30ml short",
-          "15ml caramel syp",
-          "10ml caremal sauce",
-          "50ml milk",
-          "10 ice",
-          "30g frappe"
-        ],
-        "L": [
-          "60ml short",
-          "20ml caramel syp",
-          "15ml caremal sauce",
-          "80ml milk",
-          "15 ice",
-          "40g frappe"
-        ]
-      }
-    },
-    {
-      "name": "hazelnut blast",
-      "sizes": {
-        "R": [
-          "30ml short",
-          "25ml hazelnut syp",
-          "50ml milk",
-          "10 ice",
-          "30g frappe"
-        ],
-        "L": [
-          "60ml short",
-          "30ml hazelnut syp",
-          "80ml milk",
-          "15 ice",
-          "40g frappe"
-        ]
-      }
-    },
-    {
-      "name": "cofee tiramisu",
-      "sizes": {
-        "R": [
-          "30ml short",
-          "25ml tiramisu syp",
-          "50ml milk",
-          "10 ice",
-          "30g frappe"
-        ],
-        "L": [
-          "60ml short",
-          "30ml tiramisu syp",
-          "80ml milk",
-          "15 ice",
-          "40g frappe"
-        ]
-      }
-    },
-    {
-      "name": "mocha frappe",
-      "sizes": {
-        "R": [
-          "30ml short",
-          "50ml milk",
-          "10 ice",
-          "30g frappe",
-          "20g chocolate powder"
-        ],
-        "L": [
-          "60ml short",
-          "80ml milk",
-          "15 ice",
-          "40g frappe",
-          "40g chocolate powder"
-        ]
-      }
-    }
-  ],
-  "hot chocolate": [
-    {
-      "name": "dark",
-      "sizes": {
-        "R": [
-          "40g chocolate powder",
-          "150ml milk"
-        ],
-        "L": [
-          "50g chocolate powder",
-          "250ml milk"
-        ]
-      }
-    },
-    {
-      "name": "tiramisu",
-      "sizes": {
-        "R": [
-          "40g chocolate powder",
-          "10ml tiramisu syrup",
-          "150ml milk"
-        ],
-        "L": [
-          "50g chocolate powder",
-          "10ml tiramisu syrup",
-          "250ml milk"
-        ]
-      }
-    },
-    {
-      "name": "nutella",
-      "sizes": {
-        "R": [
-          "40g nutella",
-          "150ml milk"
-        ],
-        "L": [
-          "50g nutella",
-          "250ml milk"
-        ]
-      }
-    }
-  ],
-  "mojito": [
-    {
-      "name": "lemon mojito",
-      "sizes": {
-        "R": [
-          "20ml mint syrup",
-          "20 mint leaves",
-          "3 lemon slices",
-          "15ml lemoneez",
-          "6-8 ice cubes",
-          "150ml soda",
-          "1 sugar"
-        ],
-        "L": [
-          "20ml mint syrup",
-          "20 mint leaves",
-          "3 lemon slices",
-          "20ml lemoneez",
-          "8-10 ice cubes",
-          "250ml soda",
-          "1 sugar"
-        ]
-      }
-    },
-    {
-      "name": "grenadine mojito",
-      "sizes": {
-        "R": [
-          "30ml grenadine syrup",
-          "10ml mint syrup",
-          "20 mint leaves",
-          "3 lemon slices",
-          "5ml lemoneez",
-          "6-8 ice cubes",
-          "150ml soda",
-          "1 sugar"
-        ],
-        "L": [
-          "40ml grenadine syrup",
-          "20ml mint syrup",
-          "20 mint leaves",
-          "3 lemon slices",
-          "10ml lemoneez",
-          "8-10 ice cubes",
-          "250ml soda",
-          "1 sugar"
-        ]
-      }
-    },
-    {
-      "name": "green apple",
-      "sizes": {
-        "R": [
-          "30ml green apple",
-          "10ml mint syrup",
-          "20 mint leaves",
-          "3 lemon slices",
-          "5ml lemoneez",
-          "6-8 ice cubes",
-          "150ml soda",
-          "1 sugar"
-        ],
-        "L": [
-          "40ml green apple",
-          "20ml mint syrup",
-          "20 mint leaves",
-          "3 lemon slices",
-          "10ml lemoneez",
-          "8-10 ice cubes",
-          "250ml soda",
-          "1 sugar"
-        ]
-      }
-    },
-    {
-      "name": "pink grapefruit & lychee",
-      "sizes": {
-        "R": [
-          "40ml pink grapefruit & lychee syrup",
-          "5ml lemoneez",
-          "150ml soda",
-          "1 slice lemon for garnish",
-          "8-10 ice cubes"
-        ],
-        "L": [
-          "60ml pink grapefruit & lychee syrup",
-          "10ml lemoneez",
-          "250ml soda",
-          "1 slice lemon for garnish",
-          "10-12 ice cubes"
-        ]
-      }
-    },
-    {
-      "name": "tropical bliss cooler",
-      "sizes": {
-        "R": [
-          "30ml pineapple crush",
-          "15ml coconut syrup",
-          "10ml lemoneez",
-          "120ml soda",
-          "8-10 ice cubes"
-        ],
-        "L": [
-          "40ml pineapple crush",
-          "20ml coconut syrup",
-          "15ml lemoneez",
-          "160ml soda",
-          "10-12 ice cubes"
-        ]
-      }
-    }
-  ],
-  "on the rocks": [
-    {
-      "name": "iced americano",
-      "sizes": {
-        "R": [
-          "60ml shot",
-          "6-8 ice cubes",
-          "165ml water"
-        ],
-        "L": [
-          "80ml shot",
-          "10-12 ice cubes",
-          "250ml water"
-        ]
-      }
-    },
-    {
-      "name": "vietnamese styled",
-      "sizes": {
-        "R": [
-          "60ml shot",
-          "40g condensed milk",
-          "150ml milk",
-          "6-8 ice cubes"
-        ],
-        "L": [
-          "80ml shot",
-          "50g condensed milk",
-          "200ml milk",
-          "8-10 ice cubes"
-        ]
-      }
-    },
-    {
-      "name": "iced vanilla latte",
-      "sizes": {
-        "R": [
-          "60ml shot",
-          "25ml vanilla syrup",
-          "200ml milk",
-          "10 ice cubes",
-          "5g frappe premix"
-        ],
-        "L": [
-          "80ml shot",
-          "30ml vanilla syrup",
-          "250ml milk",
-          "12 ice cubes",
-          "10g frappe premix"
-        ]
-      }
-    },
-    {
-      "name": "iced caramel cappuccino",
-      "sizes": {
-        "R": [
-          "60ml shot",
-          "10 ice cubes",
-          "25ml caramel syrup",
-          "50ml milk",
-          "50ml unwhipped cream"
-        ],
-        "L": [
-          "80ml shot",
-          "12 ice cubes",
-          "30ml caramel syrup",
-          "80ml milk",
-          "60ml unwhipped cream"
-        ]
-      }
-    },
-    {
-      "name": "iced hazelnut mocha",
-      "sizes": {
-        "R": [
-          "30ml shot",
-          "25ml hazelnut syrup",
-          "200ml milk",
-          "20ml chocolate sauce",
-          "10 ice cubes",
-          "10g frappe premix"
-        ],
-        "L": [
-          "50ml shot",
-          "30ml hazelnut syrup",
-          "250ml milk",
-          "20ml chocolate sauce",
-          "12 ice cubes",
-          "10g frappe premix"
-        ]
-      }
-    }
-  ],
-  "signature cold coffee": [
-    {
-      "name": "vintage cold",
-      "sizes": {
-        "R": [
-          "60ml short",
-          "60ml milk",
-          "4 scoop vanilla"
-        ],
-        "L": [
-          "75ml short",
-          "80ml milk",
-          "5 scoop vanilla"
-        ]
-      }
-    },
-    {
-      "name": "bronze frost",
-      "sizes": {
-        "R": [
-          "60ml short",
-          "60ml milk",
-          "2 scoop vanilla",
-          "2 scoop chocolate",
-          "10ml choc sauce",
-          "10g choc chips",
-          "0.3 choc cookie",
-          "1 shot whipped creame"
-        ],
-        "L": [
-          "90ml short",
-          "80ml milk",
-          "3 scoop vanilla",
-          "3 scoop chocolate",
-          "15ml choc sauce",
-          "15g choc chips",
-          "0.5 choc cookie",
-          "1 shot whipped creame"
-        ]
-      }
-    },
-    {
-      "name": "vintage dark",
-      "sizes": {
-        "R": [
-          "60ml short",
-          "60ml milk",
-          "4 scoop vanilla",
-          "3drop brown colour"
-        ],
-        "L": [
-          "75ml short",
-          "80ml milk",
-          "5 scoop vanilla",
-          "6 drop brown colour"
-        ]
-      }
-    }
-  ],
-  "smoothies": [
-    {
-      "name": "mango pineapple",
-      "sizes": {
-        "R": [
-          "30ml mango crush",
-          "20ml pineapple crush",
-          "1 scoop vanilla ice cream",
-          "50ml milk",
-          "6-8 ice cubes",
-          "150g fresh yogurt"
-        ],
-        "L": []
-      }
-    },
-    {
-      "name": "berry blast",
-      "sizes": {
-        "R": [
-          "40ml berry blast crush",
-          "1 scoop vanilla ice cream",
-          "50ml milk",
-          "6-8 ice cubes",
-          "150g fresh yogurt"
-        ],
-        "L": []
-      }
-    },
-    {
-      "name": "kiwi mint",
-      "sizes": {
-        "R": [
-          "40ml kiwi crush",
-          "5ml mint syrup",
-          "1 scoop vanilla ice cream",
-          "50ml milk",
-          "6-8 ice cubes",
-          "150g fresh yogurt",
-          "10-15 mint leaves"
-        ],
-        "L": []
-      }
-    }
-  ],
-  "tea": [
-    {
-      "name": "ask of diff varieties",
-      "sizes": {
-        "R": [
-          "3g tea leaves",
-          "200ml hot water"
-        ],
-        "L": [
-          "6g tea leaves",
-          "400ml hot water"
-        ]
-      }
-    }
-  ],
-  "iced tea": [
-    {
-      "name": "lemon",
-      "sizes": {
-        "R": [
-          "30ml tea syrup",
-          "165ml water",
-          "8-10 ice cubes"
-        ],
-        "L": [
-          "45ml tea syrup",
-          "250ml water",
-          "10-12 ice cubes"
-        ]
-      }
-    },
-    {
-      "name": "peach passion",
-      "sizes": {
-        "R": [
-          "30ml peach syrup",
-          "165ml water",
-          "8-10 ice cubes"
-        ],
-        "L": [
-          "45ml peach syrup",
-          "250ml water",
-          "10-12 ice cubes"
-        ]
-      }
-    },
-    {
-      "name": "elder flower",
-      "sizes": {
-        "R": [
-          "30ml lemon ice tea syrup",
-          "165ml water",
-          "8-10 ice cubes",
-          "10ml elder flower syrup"
-        ],
-        "L": [
-          "45ml lemon ice tea syrup",
-          "250ml water",
-          "10-12 ice cubes",
-          "15ml elder flower syrup"
-        ]
-      }
-    }
-  ],
-  "speciality latte": [
-    {
-      "name": "cinnamon latte",
-      "sizes": {
-        "R": [
-          "30ml shot",
-          "30ml cinnamon syrup",
-          "160ml milk"
-        ],
-        "L": [
-          "60ml shot",
-          "30ml cinnamon syrup",
-          "200ml milk"
-        ]
-      }
-    },
-    {
-      "name": "choco ginger latte",
-      "sizes": {
-        "R": [
-          "30ml shot",
-          "15ml chocolate sauce",
-          "15ml ginger syrup",
-          "160ml milk"
-        ],
-        "L": [
-          "60ml shot",
-          "15ml chocolate sauce",
-          "15ml ginger syrup",
-          "200ml milk"
-        ]
-      }
-    },
-    {
-      "name": "caramel banana latte",
-      "sizes": {
-        "R": [
-          "30ml shot",
-          "15ml caramel",
-          "15ml banana syrup",
-          "160ml milk"
-        ],
-        "L": [
-          "60ml shot",
-          "15ml caramel",
-          "15ml banana syrup",
-          "200ml milk"
-        ]
-      }
-    },
-    {
-      "name": "chocolate cookie latte",
-      "sizes": {
-        "R": [
-          "30ml shot",
-          "20ml cookie syrup",
-          "160ml milk"
-        ],
-        "L": [
-          "60ml shot",
-          "35ml cookie syrup",
-          "200ml milk"
-        ]
-      }
-    }
-  ],
-  "hot coffee": [
-    {
-      "name": "espresso",
-      "sizes": {
-        "R": [
-          "30ml espresso"
-        ],
-        "L": [
-          "60ml espresso"
-        ]
-      }
-    },
-    {
-      "name": "espresso macchiato",
-      "sizes": {
-        "R": [
-          "30ml espresso",
-          "1 tbsp foam"
-        ],
-        "L": [
-          "60ml espresso",
-          "1 tbsp foam"
-        ]
-      }
-    },
-    {
-      "name": "americano",
-      "sizes": {
-        "R": [
-          "30ml shot",
-          "120ml water"
-        ],
-        "L": [
-          "60ml shot",
-          "240ml water"
-        ]
-      }
-    },
-    {
-      "name": "cappuccino",
-      "sizes": {
-        "R": [
-          "30ml shot",
-          "130ml milk"
-        ],
-        "L": [
-          "60ml shot",
-          "260ml milk"
-        ]
-      }
-    },
-    {
-      "name": "cafe latte",
-      "sizes": {
-        "R": [
-          "30ml shot",
-          "190ml milk"
-        ],
-        "L": [
-          "60ml shot",
-          "320ml milk"
-        ]
-      }
-    },
-    {
-      "name": "cafe mocha",
-      "sizes": {
-        "R": [
-          "30ml shot",
-          "30ml chocolate sauce",
-          "150ml milk"
-        ],
-        "L": [
-          "60ml shot",
-          "40ml chocolate sauce",
-          "200ml milk"
-        ]
-      }
-    },
-    {
-      "name": "flat white",
-      "sizes": {
-        "R": [
-          "60ml shot",
-          "190ml milk"
-        ],
-        "L": [
-          "80ml shot",
-          "300ml milk"
-        ]
-      }
-    },
-    {
-      "name": "irish coffee",
-      "sizes": {
-        "R": [
-          "30ml shot",
-          "140ml water",
-          "15ml irish syrup",
-          "32g whipped cream",
-          "1 sugar sachet"
-        ],
-        "L": [
-          "40ml shot",
-          "200ml water",
-          "20ml irish syrup",
-          "32g whipped cream",
-          "1 sugar sachet"
-        ]
-      }
-    },
-    {
-      "name": "affogato with choice of icecream",
-      "sizes": {
-        "R": [
-          "30ml shot",
-          "1 scoop ice cream of choice"
-        ],
-        "L": [
-          "60ml shot",
-          "1 scoop ice cream of choice"
-        ]
-      }
-    }
-  ]
-};
+    const jsonUrl = 'https://raw.githubusercontent.com/surubro/love/refs/heads/main/love.json';
+    let menuItems = [];
 
     const searchInput = document.getElementById('search');
     const resultsDiv = document.getElementById('results');
     const detailsDiv = document.getElementById('details');
     const categoriesDiv = document.getElementById('categories');
     const clearBtn = document.getElementById('clearBtn');
-    const menuItems = [];
 
     document.getElementById('reload').onclick = () => location.reload();
 
-    for (const category in menuData) {
-      menuData[category].forEach(item => {
-        menuItems.push({ ...item, category });
-      });
-    }
-
-    displayCategories();
-
-    function displayCategories() {
-      categoriesDiv.innerHTML = '';
-      const categories = Object.keys(menuData);
-      categories.forEach(category => {
-        const div = document.createElement('div');
-        div.className = 'category';
-        div.textContent = category;
-        div.onclick = () => showCategoryItems(category);
-        categoriesDiv.appendChild(div);
-      });
-    }
-
-    function showCategoryItems(category) {
-      resultsDiv.innerHTML = '';
-      detailsDiv.innerHTML = '';
-      const items = menuData[category];
-      items.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'clickable';
-        div.textContent = item.name;
-        div.onclick = () => showDetails({ ...item, category });
-        resultsDiv.appendChild(div);
-      });
-    }
-
-    function showDetails(item) {
-      let html = `<h3>${item.name}</h3><p><strong>Category:</strong> ${item.category}</p>`;
-      if (item.equipments) {
-        html += `<h4>Equipments</h4><ul>${item.equipments.map(e => `<li>${e}</li>`).join('')}</ul>`;
-      } else if (item.sizes) {
-        html += `<h4>Preparation</h4>`;
-        for (const size in item.sizes) {
-          html += `<strong>${size} Size:</strong><ul>${item.sizes[size].map(step => `<li>${step}</li>`).join('')}</ul>`;
+    fetch(jsonUrl)
+      .then(res => res.json())
+      .then(data => {
+        for (const category in data) {
+          data[category].forEach(item => {
+            menuItems.push({ ...item, category });
+          });
         }
-      } else {
-        html += `<p>No preparation steps available.</p>`;
-      }
-      detailsDiv.innerHTML = html;
-      detailsDiv.scrollIntoView({ behavior: 'smooth' });
-    }
+        displayCategories();
+      })
+      .catch(err => {
+        resultsDiv.innerHTML = 'Failed to load menu data.';
+        console.error('Error loading JSON:', err);
+      });
 
     searchInput.addEventListener('input', () => {
       const query = searchInput.value.toLowerCase();
       resultsDiv.innerHTML = '';
       detailsDiv.innerHTML = '';
       categoriesDiv.innerHTML = '';
+
       clearBtn.style.display = query ? 'flex' : 'none';
 
       if (query) {
@@ -928,6 +187,57 @@
       displayCategories();
       searchInput.focus();
     });
+
+    function displayCategories() {
+      categoriesDiv.innerHTML = '';
+      const categories = [...new Set(menuItems.map(item => item.category))];
+      categories.forEach(category => {
+        const categoryDiv = document.createElement('div');
+        categoryDiv.className = 'category';
+        categoryDiv.textContent = category;
+        categoryDiv.onclick = () => showCategoryItems(category);
+        categoriesDiv.appendChild(categoryDiv);
+      });
+    }
+
+    function showCategoryItems(category) {
+      resultsDiv.innerHTML = '';
+      detailsDiv.innerHTML = '';
+      categoriesDiv.innerHTML = '';
+      const categoryItems = menuItems.filter(item => item.category === category);
+      categoryItems.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'clickable';
+        div.textContent = item.name;
+        div.onclick = () => showDetails(item);
+        resultsDiv.appendChild(div);
+      });
+    }
+
+    function showDetails(item) {
+      let html = `<h3>${item.name}</h3><p><strong>Category:</strong> ${item.category}</p>`;
+      if (item.equipments) {
+        html += `<h4>Equipments</h4><ul>${item.equipments.map(e => `<li>${e}</li>`).join('')}</ul>`;
+      } else if (item.sizes) {
+        html += `<h4>Preparation</h4>`;
+        for (const size in item.sizes) {
+          html += `<strong>${size} Size:</strong><ul>${item.sizes[size].map(step => `<li>${step}</li>`).join('')}</ul>`;
+        }
+      } else {
+        html += `<p>No preparation steps available.</p>`;
+      }
+      detailsDiv.innerHTML = html;
+      detailsDiv.scrollIntoView({ behavior: 'smooth' });
+    }
   </script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('Service Worker Registered:', reg.scope))
+      .catch(err => console.error('Service Worker registration failed:', err));
+  }
+</script>
 </body>
+
 </html>
